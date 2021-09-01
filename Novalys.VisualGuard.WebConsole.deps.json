@@ -26,7 +26,7 @@
         "dependencies": {
           "BuildBundlerMinifier": "3.2.449",
           "ClosedXML.Signed": "0.95.4",
-          "DevExtreme.AspNet.Core": "19.2.11",
+          "DevExtreme.AspNet.Core": "19.2.12",
           "DevExtreme.AspNet.Data": "2.5.1",
           "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "3.1.2",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "3.1.2",
@@ -1618,7 +1618,7 @@
           "lib/netstandard2.0/ClosedXML.dll": {}
         }
       },
-      "DevExtreme.AspNet.Core/19.2.11": {
+      "DevExtreme.AspNet.Core/19.2.12": {
         "dependencies": {
           "DevExtreme.AspNet.Data": "2.5.1",
           "Microsoft.AspNetCore.Mvc": "2.0.0",
@@ -3714,7 +3714,7 @@
         "dependencies": {
           "BuildBundlerMinifier": "3.2.449",
           "ClosedXML.Signed": "0.95.4",
-          "DevExtreme.AspNet.Core": "19.2.11",
+          "DevExtreme.AspNet.Core": "19.2.12",
           "DevExtreme.AspNet.Data": "2.5.1",
           "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "3.1.2",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "3.1.2",
@@ -4024,7 +4024,7 @@
           }
         }
       },
-      "DevExtreme.AspNet.Core/19.2.11": {
+      "DevExtreme.AspNet.Core/19.2.12": {
         "dependencies": {
           "DevExtreme.AspNet.Data": "2.5.1",
           "Microsoft.AspNetCore.Mvc": "2.0.0",
@@ -4032,8 +4032,8 @@
         },
         "runtime": {
           "lib/netstandard2.0/DevExtreme.AspNet.Core.dll": {
-            "assemblyVersion": "19.2.11.0",
-            "fileVersion": "19.2.11.0"
+            "assemblyVersion": "19.2.12.0",
+            "fileVersion": "19.2.12.0"
           }
         }
       },
@@ -6672,12 +6672,12 @@
       "path": "closedxml.signed/0.95.4",
       "hashPath": "closedxml.signed.0.95.4.nupkg.sha512"
     },
-    "DevExtreme.AspNet.Core/19.2.11": {
+    "DevExtreme.AspNet.Core/19.2.12": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-2BsJ+IRarBihyXoUBaUvG7zAmzcd6aRcoaems9T23WAv8Mt6iwRpNWWxYEmqXZLM4xYU3/X8/zduY7VAZdN+fw==",
-      "path": "devextreme.aspnet.core/19.2.11",
-      "hashPath": "devextreme.aspnet.core.19.2.11.nupkg.sha512"
+      "sha512": "sha512-WYyaU3Kcc8VUj++XHmg3vhFnW80vBW2OebFyKL9CRw060ae7xCXXqqb5EZfVUvGf2FC5Vij2IjUvdCXFU+eQzA==",
+      "path": "devextreme.aspnet.core/19.2.12",
+      "hashPath": "devextreme.aspnet.core.19.2.12.nupkg.sha512"
     },
     "DevExtreme.AspNet.Data/2.5.1": {
       "type": "package",

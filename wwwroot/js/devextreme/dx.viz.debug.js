@@ -1,9 +1,9 @@
 /*!
  * DevExtreme (dx.viz.debug.js)
- * Version: 19.2.11
- * Build date: Mon Dec 14 2020
+ * Version: 19.2.12
+ * Build date: Thu Apr 22 2021
  *
- * Copyright (c) 2012 - 2020 Developer Express Inc. ALL RIGHTS RESERVED
+ * Copyright (c) 2012 - 2021 Developer Express Inc. ALL RIGHTS RESERVED
  * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
  */
 "use strict";
@@ -4501,7 +4501,7 @@
                 return true
             }
             try {
-                Date.prototype.toString.call(Reflect.construct(Date, [], function() {}));
+                Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
                 return true
             } catch (e) {
                 return false
@@ -6520,7 +6520,7 @@
             },
             _parseTransform: function(transformString) {
                 var result = {};
-                iteratorUtils.each(transformString.match(/(\w|\d)+\([^)]*\)\s*/g), function(i, part) {
+                iteratorUtils.each(transformString.match(/\w+\d*\w*\([^)]*\)\s*/g), function(i, part) {
                     var translateData = translator.parseTranslate(part);
                     var scaleData = part.match(/scale\((.+?)\)/);
                     var rotateData = part.match(/(rotate.)\((.+)deg\)/);
@@ -7137,7 +7137,7 @@
         }
 
         function _iterableToArray(iter) {
-            if ("undefined" !== typeof Symbol && Symbol.iterator in Object(iter)) {
+            if ("undefined" !== typeof Symbol && null != iter[Symbol.iterator] || null != iter["@@iterator"]) {
                 return Array.from(iter)
             }
         }
@@ -8827,15 +8827,16 @@
         }
 
         function _iterableToArrayLimit(arr, i) {
-            if ("undefined" === typeof Symbol || !(Symbol.iterator in Object(arr))) {
+            var _i = arr && ("undefined" !== typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]);
+            if (null == _i) {
                 return
             }
             var _arr = [];
             var _n = true;
             var _d = false;
-            var _e = void 0;
+            var _s, _e;
             try {
-                for (var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done); _n = true) {
+                for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
                     _arr.push(_s.value);
                     if (i && _arr.length === i) {
                         break
@@ -9678,7 +9679,7 @@
         }
 
         function _iterableToArray(iter) {
-            if ("undefined" !== typeof Symbol && Symbol.iterator in Object(iter)) {
+            if ("undefined" !== typeof Symbol && null != iter[Symbol.iterator] || null != iter["@@iterator"]) {
                 return Array.from(iter)
             }
         }
@@ -10389,7 +10390,7 @@
             if (!source || "string" !== typeof source) {
                 return false
             }
-            if (/^\s*<svg[^>]*>(.|\r\n|\r|\n)*?<\/svg>\s*$/i.test(source)) {
+            if (/^\s*<svg[^>]*>(.|\r?\n)*?<\/svg>\s*$/i.test(source)) {
                 return "svg"
             }
             if (/data:.*base64|\.|[^<\s]\//.test(source)) {
@@ -11123,7 +11124,7 @@
                 return true
             }
             try {
-                Date.prototype.toString.call(Reflect.construct(Date, [], function() {}));
+                Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
                 return true
             } catch (e) {
                 return false
@@ -14056,7 +14057,7 @@
                 return true
             }
             try {
-                Date.prototype.toString.call(Reflect.construct(Date, [], function() {}));
+                Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
                 return true
             } catch (e) {
                 return false
@@ -14451,7 +14452,7 @@
                         return true
                     }
                     return rulesValidators.pattern.validate(value, (0, _extend.extend)({}, rule, {
-                        pattern: /^[\d\w._-]+@([\d\w._-]+\.)+[\w]+$/i
+                        pattern: /^[\d\w._-]+@[\d\w._-]+\.[\w]+$/i
                     }))
                 }
             }]);
@@ -16142,7 +16143,7 @@
                 return true
             }
             try {
-                Date.prototype.toString.call(Reflect.construct(Date, [], function() {}));
+                Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
                 return true
             } catch (e) {
                 return false
@@ -19361,7 +19362,7 @@
                 return true
             }
             try {
-                Date.prototype.toString.call(Reflect.construct(Date, [], function() {}));
+                Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
                 return true
             } catch (e) {
                 return false
@@ -19589,7 +19590,7 @@
         }
 
         function _iterableToArray(iter) {
-            if ("undefined" !== typeof Symbol && Symbol.iterator in Object(iter)) {
+            if ("undefined" !== typeof Symbol && null != iter[Symbol.iterator] || null != iter["@@iterator"]) {
                 return Array.from(iter)
             }
         }
@@ -21688,7 +21689,7 @@
     /*! dynamic exports provided */
     /*! all exports used */
     function(module, exports, __webpack_require__) {
-        module.exports = "19.2.11"
+        module.exports = "19.2.12"
     },
     /*!*************************************************************!*\
       !*** ./artifacts/transpiled/core/utils/resize_callbacks.js ***!
@@ -21927,7 +21928,7 @@
                 return true
             }
             try {
-                Date.prototype.toString.call(Reflect.construct(Date, [], function() {}));
+                Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
                 return true
             } catch (e) {
                 return false
@@ -22051,7 +22052,8 @@
 
         function setDataByKeyMapValue(array, key, data) {
             if (array._dataByKeyMap) {
-                array._dataByKeyMap[JSON.stringify(key)] = data
+                array._dataByKeyMap[JSON.stringify(key)] = data;
+                array._dataByKeyMapLength += data ? 1 : -1
             }
         }
 
@@ -22134,7 +22136,8 @@
         function remove(keyInfo, array, key, isBatch) {
             var index = indexByKey(keyInfo, array, key);
             if (index > -1) {
-                array.splice(index, 1)
+                array.splice(index, 1);
+                setDataByKeyMapValue(array, key, null)
             }
             if (!isBatch) {
                 return (0, _utils.trivialPromise)(key)
@@ -23841,7 +23844,8 @@
                             if (getterValue.length < searchValue.length) {
                                 return false
                             }
-                            return getterValue.lastIndexOf(value) === getterValue.length - value.length
+                            var index = getterValue.lastIndexOf(value);
+                            return index !== -1 && index === getterValue.length - value.length
                         };
                     case "contains":
                         return function(obj) {
@@ -24487,15 +24491,16 @@
         }
 
         function _iterableToArrayLimit(arr, i) {
-            if ("undefined" === typeof Symbol || !(Symbol.iterator in Object(arr))) {
+            var _i = arr && ("undefined" !== typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]);
+            if (null == _i) {
                 return
             }
             var _arr = [];
             var _n = true;
             var _d = false;
-            var _e = void 0;
+            var _s, _e;
             try {
-                for (var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done); _n = true) {
+                for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
                     _arr.push(_s.value);
                     if (i && _arr.length === i) {
                         break
@@ -48513,15 +48518,16 @@
         }
 
         function _iterableToArrayLimit(arr, i) {
-            if ("undefined" === typeof Symbol || !(Symbol.iterator in Object(arr))) {
+            var _i = arr && ("undefined" !== typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]);
+            if (null == _i) {
                 return
             }
             var _arr = [];
             var _n = true;
             var _d = false;
-            var _e = void 0;
+            var _s, _e;
             try {
-                for (var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done); _n = true) {
+                for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
                     _arr.push(_s.value);
                     if (i && _arr.length === i) {
                         break
@@ -52509,15 +52515,16 @@
         }
 
         function _iterableToArrayLimit(arr, i) {
-            if ("undefined" === typeof Symbol || !(Symbol.iterator in Object(arr))) {
+            var _i = arr && ("undefined" !== typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]);
+            if (null == _i) {
                 return
             }
             var _arr = [];
             var _n = true;
             var _d = false;
-            var _e = void 0;
+            var _s, _e;
             try {
-                for (var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done); _n = true) {
+                for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
                     _arr.push(_s.value);
                     if (i && _arr.length === i) {
                         break
@@ -59731,7 +59738,7 @@
                 return true
             }
             try {
-                Date.prototype.toString.call(Reflect.construct(Date, [], function() {}));
+                Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
                 return true
             } catch (e) {
                 return false
@@ -61261,7 +61268,7 @@
                 return true
             }
             try {
-                Date.prototype.toString.call(Reflect.construct(Date, [], function() {}));
+                Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
                 return true
             } catch (e) {
                 return false
@@ -63390,7 +63397,7 @@
                 return true
             }
             try {
-                Date.prototype.toString.call(Reflect.construct(Date, [], function() {}));
+                Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
                 return true
             } catch (e) {
                 return false
@@ -86391,15 +86398,16 @@
         }
 
         function _iterableToArrayLimit(arr, i) {
-            if ("undefined" === typeof Symbol || !(Symbol.iterator in Object(arr))) {
+            var _i = arr && ("undefined" !== typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]);
+            if (null == _i) {
                 return
             }
             var _arr = [];
             var _n = true;
             var _d = false;
-            var _e = void 0;
+            var _s, _e;
             try {
-                for (var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done); _n = true) {
+                for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
                     _arr.push(_s.value);
                     if (i && _arr.length === i) {
                         break
@@ -86456,7 +86464,7 @@
         }
 
         function _iterableToArray(iter) {
-            if ("undefined" !== typeof Symbol && Symbol.iterator in Object(iter)) {
+            if ("undefined" !== typeof Symbol && null != iter[Symbol.iterator] || null != iter["@@iterator"]) {
                 return Array.from(iter)
             }
         }
