@@ -4749,6 +4749,76 @@
             <summary>Gets or sets the string stored as the description.</summary>
             <returns>The string stored as the description. The default value is an empty string ("").</returns>
         </member>
+        <member name="T:Novalys.VisualGuard.Security.Common.VGEnvironmentVariablesNames">
+            <summary>
+            VGEnvironmentVariablesNames
+            </summary>
+        </member>
+        <member name="F:Novalys.VisualGuard.Security.Common.VGEnvironmentVariablesNames.Customer_CompanyName">
+            <summary>
+            Customer_CompanyName
+            </summary>
+        </member>
+        <member name="F:Novalys.VisualGuard.Security.Common.VGEnvironmentVariablesNames.Customer_Email">
+            <summary>
+            Customer_Email
+            </summary>
+        </member>
+        <member name="F:Novalys.VisualGuard.Security.Common.VGEnvironmentVariablesNames.Customer_FirstName">
+            <summary>
+            Customer_FirstName
+            </summary>
+        </member>
+        <member name="F:Novalys.VisualGuard.Security.Common.VGEnvironmentVariablesNames.Customer_LastName">
+            <summary>
+            Customer_LastName
+            </summary>
+        </member>
+        <member name="F:Novalys.VisualGuard.Security.Common.VGEnvironmentVariablesNames.Customer_EnvironmentName">
+            <summary>
+            Customer_EnvironmentName
+            </summary>
+        </member>
+        <member name="F:Novalys.VisualGuard.Security.Common.VGEnvironmentVariablesNames.NumberOfUsers">
+            <summary>
+            NumberOfUsers
+            </summary>
+        </member>
+        <member name="F:Novalys.VisualGuard.Security.Common.VGEnvironmentVariablesNames.SqlServerName">
+            <summary>
+            SqlServerName
+            </summary>
+        </member>
+        <member name="F:Novalys.VisualGuard.Security.Common.VGEnvironmentVariablesNames.SqlDatabaseName">
+            <summary>
+            SqlDatabaseName
+            </summary>
+        </member>
+        <member name="F:Novalys.VisualGuard.Security.Common.VGEnvironmentVariablesNames.SqlAdministratorLogin">
+            <summary>
+            SqlAdministratorLogin
+            </summary>
+        </member>
+        <member name="F:Novalys.VisualGuard.Security.Common.VGEnvironmentVariablesNames.SqlAdministratorLoginPassword">
+            <summary>
+            SqlAdministratorLoginPassword
+            </summary>
+        </member>
+        <member name="F:Novalys.VisualGuard.Security.Common.VGEnvironmentVariablesNames.VGAdminLogin">
+            <summary>
+            VGAdminLogin
+            </summary>
+        </member>
+        <member name="F:Novalys.VisualGuard.Security.Common.VGEnvironmentVariablesNames.VGAdminPassword">
+            <summary>
+            VGAdminPassword
+            </summary>
+        </member>
+        <member name="F:Novalys.VisualGuard.Security.Common.VGEnvironmentVariablesNames.VGConnectionString">
+            <summary>
+            VGConnectionString
+            </summary>
+        </member>
         <member name="T:Novalys.VisualGuard.Security.Common.VGExceptionFormatter">
             <summary>
             <para>Provides exception formatting when not using the Exception Handling block.</para>
@@ -14120,6 +14190,11 @@
             Represents VGIdentityServer constants.
             </summary>
         </member>
+        <member name="F:Novalys.VisualGuard.Security.IdentityServer.VGIdentityServerConstants.Default_VGIdentityServerId">
+            <summary>
+            Default VGIdentityServerId
+            </summary>
+        </member>
         <member name="T:Novalys.VisualGuard.Security.IdentityServer.VGIdentityServerConstants.VGClaims">
             <summary>
             This class represents VGIdentity server's supported claims.
@@ -14308,6 +14383,11 @@
         <member name="T:Novalys.VisualGuard.Security.IdentityServer.VGIdentityServerInformation">
             <summary>
             Represents a class to contain all information about identity server.
+            </summary>
+        </member>
+        <member name="P:Novalys.VisualGuard.Security.IdentityServer.VGIdentityServerInformation.DefaultVGIdentityServerId">
+            <summary>
+            Gets default VGIdentityServerId
             </summary>
         </member>
         <member name="P:Novalys.VisualGuard.Security.IdentityServer.VGIdentityServerInformation.SigningCertificate">
@@ -18805,6 +18885,11 @@
             Represents an information about VG IdentityServer stored in VisualGuard repository.
             </summary>
             
+        </member>
+        <member name="P:Novalys.VisualGuard.Security.Membership.VGIdentityServer.IsBuiltin">
+            <summary>
+            Gets if IdentityServer is BuiltIn
+            </summary>
         </member>
         <member name="P:Novalys.VisualGuard.Security.Membership.VGIdentityServer.Name">
             <summary>
