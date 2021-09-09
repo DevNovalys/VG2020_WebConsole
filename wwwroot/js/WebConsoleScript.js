@@ -18,7 +18,7 @@ function SetControlMaxHeight(ctrlId) {
 
     if (typeof control !== "undefined") {
         var windowHeight = $(window).height() - 320;
-        control.css("max-height", windowHeight);
+        control.css("max-height", windowHeight);        
     }
 }
 
