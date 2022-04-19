@@ -13609,6 +13609,16 @@
               Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
             </summary>
         </member>
+        <member name="P:Novalys.VisualGuard.Security.IdentityModule.UserImg.mfa_account_16">
+            <summary>
+              Looks up a localized resource of type System.Byte[].
+            </summary>
+        </member>
+        <member name="P:Novalys.VisualGuard.Security.IdentityModule.UserImg.mfa_account_admin_16">
+            <summary>
+              Looks up a localized resource of type System.Byte[].
+            </summary>
+        </member>
         <member name="P:Novalys.VisualGuard.Security.IdentityModule.UserImg.VGUser">
             <summary>
               Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
