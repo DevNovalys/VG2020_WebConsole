@@ -65,6 +65,7 @@ function roleSelection_changed(selectedItems) {
 }
 
 function roleContextMenu_Preparing(e) {
+    let grid = e.component;
     if (e.row.rowType === "data") {
         e.items = [{
             text: "Clear Selection",
@@ -73,15 +74,20 @@ function roleContextMenu_Preparing(e) {
             }
         },
         {
-            text: "Export to",
+            text: "Export to Excel",
             onItemClick: function () {
 
             },
             items: [{
-                text: "Excel",
+                text: "Selected",
                 onItemClick: function () {
-                    var grid = GetDataGridInstance('RoleGrid');
-                    ExportUsers(grid);
+                    ExportToExcel(grid, true);
+                }
+            },
+            {
+                text: "All",
+                onItemClick: function () {
+                    ExportToExcel(grid, false);
                 }
             }]
         },
@@ -208,8 +214,26 @@ $(document).on('change', '#chkShowSelectedRoles', function (event) {
     }
 });
 
+$('#generatePermMatrixGroupRoles').click(function (event) {
+    event.preventDefault();
 
+    var userPermissionMatrixButton = $(this);
+    var dataGrid = GetDataGridInstance('UserGrid2');
 
+    GenerateUserPermissionMatrixForRoles(dataGrid, userPermissionMatrixButton);
+});
+
+function GenerateUserPermissionMatrixForRoles(dataGrid, permissionMatrixButton) {
+    var selectedItems = dataGrid.getSelectedRowKeys();
+    if (0 === selectedItems.length) {
+        var selectOneMessage = permissionMatrixButton.data('selectone-message');
+        ErrorAlert(selectOneMessage, 1000, null, 0);
+        return;
+    }
+
+    SetSelectedEntitiesForPermissionMatrix(selectedItems, 'User');
+    $('#permissionMatrixModal').modal('show');
+}
 
 //============ REMOVE Group
 

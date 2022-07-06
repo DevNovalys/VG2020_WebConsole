@@ -96,7 +96,7 @@ function OnGroupGridRowClick(e) {
 
 function ProcessUserAction(url, grid) {
     
-    var selectedRow = grid.getSelectedRowKeys();
+    var selectedRow = grid.getSelectedRowKeys();    
 
     $.ajax({
         url: url,
@@ -120,6 +120,16 @@ function ProcessUserAction(url, grid) {
     });
 }
 
+function ClearSelection() {
+    var grid1 = GetDataGridInstance('UserGrid');
+    grid1.deselectAll();
+    grid1.clearSelection();
+
+    var data = grid1.getSelectedRowsData();
+    var UserGridSelected = GetDataGridInstance('UserGridSelected');
+    UserGridSelected.option("dataSource", data);
+}
+
 function ContextMenu_Preparing(e) {
     if (typeof canRightClick === 'undefined') {
         canRightClick = true;
@@ -127,6 +137,8 @@ function ContextMenu_Preparing(e) {
 
     if (!canRightClick)
         return;
+
+    let grid = e.component;
 
     if (e.row.rowType === "data") {
         e.items = [{
@@ -137,29 +149,35 @@ function ContextMenu_Preparing(e) {
         },
         {
             text: "Clear State",
-            onItemClick: function () {
-                let grid = e.component;
+            onItemClick: function () {                
                 let storageKey = grid.option("stateStoring").storageKey;
                 localStorage.removeItem(storageKey);
             }
         },
         {
-            text: "Export to",
+            text: "Export to Excel",
             onItemClick: function () {
-                //$("#gridContainer").dxDataGrid("instance").insertRow();
+                
             },
             items: [{
-                text: "Excel",
+                text: "Selected",
                 onItemClick: function () {
-                    var grid = GetDataGridInstance('UserGridSelected');
-                    ExportData(grid);                    
+                    //var grid = GetDataGridInstance('UserGrid');
+                    ExportToExcel(grid, true);
                 }
+            },
+                {
+                    text: "All",
+                    onItemClick: function () {
+                        //var grid = GetDataGridInstance('UserGrid');
+                        ExportToExcel(grid, false);
+                    }
             }]
         },
         {
             text: "Column Chooser",
             onItemClick: function () {
-                var grid = GetDataGridInstance('UserGrid');
+                //var grid = GetDataGridInstance('UserGrid');
                 ShowColumnChooser(grid);
             }
         }];
@@ -287,6 +305,60 @@ $(document).on('change', '#ddlSearchCriteria', function () {
 });
 
 $(document).ready(function () {
+
+    //============ DUPLICATE USER
+    $('#duplicateUser').click(function (event) {
+        event.preventDefault();
+        var duplicateUserButton = $(this);
+
+        var dataGrid = GetDataGridInstance('UserGrid');
+        var selectedRows = dataGrid.getSelectedRowKeys();        
+        if (selectedRows.length !== 1) {
+            var selectOneMessage = duplicateUserButton.data('selectone-message');
+            ErrorAlert(selectOneMessage, 1000, null, 0);
+            return;
+        }
+
+        let selectedRowsData = dataGrid.getSelectedRowsData()[0];
+        let canDuplicateUser = selectedRowsData.CanDuplicateUser;
+
+        if (!canDuplicateUser) {
+            ErrorAlert('This functionality is not available for this type of users.', 1000, null, 0);
+            return;
+        }
+
+        var confirmTitle = duplicateUserButton.data('confirmtitle-message');
+        var confirmMessage = duplicateUserButton.data('confirm-message');
+        
+
+        $.confirm({
+            title: confirmTitle,
+            content: confirmMessage,
+            escapeKey: 'cancel',
+            backgroundDismiss: function () {
+                return 'cancel'; // the button will handle it
+            },
+            closeIcon: true,
+            theme: 'bootstrap',
+            buttons: {
+                confirm: {
+                    text: 'Ok',
+                    action: function () {
+                        var url = duplicateUserButton.data('request-url');
+                        var selectedRow = selectedRows[0];
+                        window.location.href = url + '/' + selectedRow;
+                    }
+                },
+                cancel: {
+                    text: 'Cancel', // With spaces and symbols
+                    action: function () {
+                        //$.alert('You clicked on "heyThere"');
+                    }
+                }
+            }
+        });
+
+    });
     
     //============ REMOVE USER
     $('#removeUser').click(function (event) {
@@ -393,19 +465,24 @@ $(document).ready(function () {
 //============ Generate Permission Matrix
     $('#userPermissionMatrix').click(function (event) {
         event.preventDefault();
-        var userPermissionMatrixButton = $(this);
 
+        var userPermissionMatrixButton = $(this);
         var dataGrid = GetDataGridInstance('UserGrid');
-        var selectedUsers = dataGrid.getSelectedRowKeys();
-        if (selectedUsers.length === 0) {
-            var selectOneMessage = userPermissionMatrixButton.data('selectone-message');
+
+        GenerateUserPermissionMatrix(dataGrid, userPermissionMatrixButton);
+    });
+
+    function GenerateUserPermissionMatrix(dataGrid, permissionMatrixButton) {
+        var selectedItems = dataGrid.getSelectedRowKeys();
+        if (0 === selectedItems.length) {
+            var selectOneMessage = permissionMatrixButton.data('selectone-message');
             ErrorAlert(selectOneMessage, 1000, null, 0);
             return;
         }
 
-        SetSelectedEntitiesForPermissionMatrix(selectedUsers, 'User');
+        SetSelectedEntitiesForPermissionMatrix(selectedItems, 'User');
         $('#permissionMatrixModal').modal('show');
-    });
+    }
 
     //============ Grant Role
     $('#grantRoleToSelectedUsers').click(function (event) {

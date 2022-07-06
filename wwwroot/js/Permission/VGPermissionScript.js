@@ -97,7 +97,7 @@ function OnContextMenuPreparing(e) {
             onItemClick: function () {
                 ClearPermissionSelection();
             }
-        },        
+        },
         {
             text: "Column Chooser",
             onItemClick: function () {
@@ -322,7 +322,7 @@ $(document).on('click', '#removeFolder', function (event) {
         return (!n.IsFolder);
     });
 
-    
+
     if (result.length > 0) {
         var selectOnlyFolderMessage = removeButton.data('selectonly-message');
         ErrorAlert(selectOnlyFolderMessage, 1000, null, 0);
@@ -338,7 +338,7 @@ $(document).on('click', '#removeFolder', function (event) {
         var selectOnlyOneMessage = removeButton.data('selectonlyone-message');
         ErrorAlert(selectOnlyOneMessage, 1000, null, 0);
         return;
-    }   
+    }
 
     //Check if child exists. =====================================================================
     result = jQuery.grep(selectedRowsData, function (n, i) {
@@ -360,8 +360,7 @@ $(document).on('click', '#removeFolder', function (event) {
     var confirmTitle = removeButton.data('removeconfirmtitle-message');
     var confirmMessage = removeButton.data('removeconfirm-message');
 
-    OnVGConfirm(confirmTitle, confirmMessage, function ()
-    {
+    OnVGConfirm(confirmTitle, confirmMessage, function () {
         var url = removeButton.data('request-url');
         appId = selectedRowsData[0].ApplicationId;
 
@@ -369,5 +368,80 @@ $(document).on('click', '#removeFolder', function (event) {
     });
 });
 
+function PSToggleSelection(e, columnName) {
+    var dgInstance = GetDataGridInstance('PowerServerSecurityGrid');
+    var visibleRows = dgInstance.getVisibleRows();
+
+    if (visibleRows.length > 0) {
+        dgInstance.beginUpdate();
+        for (var i = 0; i < visibleRows.length; i++) {
+            if (visibleRows[i].rowType === 'group') {
+                continue;
+            }
+
+            if (visibleRows[i].data.ComponentType === '_TABLE') {
+                continue;
+            }
+
+            dgInstance.cellValue(visibleRows[i].rowIndex, columnName, e.value);
+        }
+        dgInstance.endUpdate();
+    }
+}
+
+function sendBatchRequest(url, changes) {
+
+    var dgInstance = GetDataGridInstance('PowerServerSecurityGrid');
+    var visibleRows = dgInstance.getVisibleRows();
+
+    let changeList = [];
+    for (var i = 0; i < changes.length; i++) {
+        let changeObj = {};
+        let key = changes[i].key;
+
+        changeObj.data = changes[i].data;
+        changeObj.key = key;
+        changeObj.type = changes[i].type;
 
 
+        let selectedRow = visibleRows.filter(function (e) {
+            return e.key === key;
+        });
+        changeObj.componentType = selectedRow[0].data.ComponentType;
+        changeList.push(changeObj);
+    }
+
+    var d = $.Deferred();
+    $.ajax(url, {
+        method: "POST",
+        //data: JSON.stringify(changes),
+        data: JSON.stringify(changeList),
+        cache: false,
+        contentType: 'application/json',
+        xhrFields: { withCredentials: true }
+    }).done(d.resolve).fail(function (xhr) {
+        d.reject(xhr.responseJSON ? xhr.responseJSON.Message : xhr.statusText);
+    });
+
+    return d.promise();
+}
+
+function CheckTableDataRows(gridInstance, data, columName) {
+    let visibleRows = gridInstance.getVisibleRows();
+    for (var i = 0; i < visibleRows.length; i++) {
+        if (visibleRows[i].rowType !== 'data') {
+            continue;
+        }
+
+        if (visibleRows[i].data.ComponentType === '_TABLE') {            
+            continue;
+        }
+
+        if ($.inArray(visibleRows[i].data.Name, data) === -1) {
+            gridInstance.cellValue(visibleRows[i].rowIndex, columName, false);
+            continue;
+        }
+
+        gridInstance.cellValue(visibleRows[i].rowIndex, columName, true);
+    }
+}

@@ -37,6 +37,28 @@ function ShowEventLogMessage(id, containerBody, message) {
     $('#' + id).popover('show');
 }
 
+function ExportCurrentPageToExcel(grid) {
+    grid.selectAll();
+    grid.beginUpdate();
+    grid.columnOption("Message", "visible", true);
+
+    ExportToExcel(grid, true);
+
+    grid.columnOption("Message", "visible", false);
+    grid.endUpdate();
+    grid.deselectAll();
+}
+
+function ExportAllToExcel(grid) {    
+    grid.beginUpdate();
+    grid.columnOption("Message", "visible", true);
+
+    ExportToExcel(grid, false);
+
+    grid.columnOption("Message", "visible", false);
+    grid.endUpdate();    
+}
+
 function OnEventLogContextMenuPreparing(e) {
     
     if (typeof canRightClick === 'undefined') {
@@ -51,28 +73,31 @@ function OnEventLogContextMenuPreparing(e) {
     if (e.row.rowType === "data") {
         e.items = [{
             text: "Refresh",
-            onItemClick: function () {
-                //var grid = GetDataGridInstance('EventLogGrid');
+            onItemClick: function () {                
                 grid.refresh();
             }
         },
         {
-            text: "Export to",
+            text: "Export to Excel",
             onItemClick: function () {
 
             },
             items: [{
-                text: "Excel",
+                text: "Current Page",
                 onItemClick: function () {
-                    //var grid = GetDataGridInstance('EventLogGrid');
-                    ExportData(grid);
+                    ExportCurrentPageToExcel(grid);
+                }
+            },
+            {
+                text: "All",
+                onItemClick: function () {                    
+                    ExportAllToExcel(grid);
                 }
             }]
         },
         {
             text: "Column Chooser",
-            onItemClick: function () {
-                //var grid = GetDataGridInstance('EventLogGrid');
+            onItemClick: function () {                
                 ShowColumnChooser(grid);
             }
         }];

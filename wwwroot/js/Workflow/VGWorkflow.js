@@ -17,15 +17,22 @@ function IsNodeValidated() {
 }
 
 function ShowNodeProperties() {
-    $("#workflowArticle").removeClass();
-    $("#workflowArticle").addClass("col-sm-12 col-md-12 col-lg-9");
-    $("#nodePropertiesArticle").show();    
+
+    $('#workflowPropertiesModal').modal('show');
+
+
+
+    //$("#workflowArticle").removeClass();
+    //$("#workflowArticle").addClass("col-sm-12 col-md-12 col-lg-9");
+    //$("#nodePropertiesArticle").show();    
 }
 
 function HideNodeProperties() {
-    $("#workflowArticle").removeClass();
-    $("#workflowArticle").addClass("col-sm-12 col-md-12 col-lg-12");
-    $("#nodePropertiesArticle").hide();
+    $('#workflowPropertiesModal').modal('hide');
+
+    //$("#workflowArticle").removeClass();
+    //$("#workflowArticle").addClass("col-sm-12 col-md-12 col-lg-12");
+    //$("#nodePropertiesArticle").hide();
 }
 
 function IsGuid(stringToTest) {
@@ -262,7 +269,7 @@ function GetVariableFromNode(clickedNodeSequence, node, clickedNode) {
 
 function DeleteNodeFromSequence(sequence, node) {
     var sequenceNodes = sequence.nodes;
-    var deleteNodeIndex = sequenceNodes.findIndex(x => x.Id === node.Id);
+    var deleteNodeIndex = sequenceNodes.findIndex(x => x.id === node.id);
 
     if (typeof deleteNodeIndex === 'undefined' || -1 === deleteNodeIndex) {
         sequenceNodes.forEach(function (node) {

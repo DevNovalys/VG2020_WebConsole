@@ -6,10 +6,8 @@
 }
 
 function SetAttendanceMonitoringHeightJS() {
-    let element = document.getElementById('attendanceChart');
-    alert(element);
-    let chart = DevExpress.ui.dxChart.getInstance(element);
-    alert(chart);
+    let element = document.getElementById('attendanceChart');    
+    let chart = DevExpress.ui.dxChart.getInstance(element);    
     if (typeof chart !== 'undefined' && null !== chart) {
         UpdateHeight(chart);
     }
@@ -445,6 +443,6 @@ function OnNotificationChartOnPointClick(e) {
         searchObject[obj.name] = obj.value;
     });
 
-    LoadMonitoringEventLogs(data, searchObject, selectedColor, 'HistoricalDataMonitoringEvents', 'GetNotificationDataMonitoringEvents');
+    LoadMonitoringEventLogs(data, searchObject, selectedColor, 'HistoricalDataMonitoringEventsEndPoint', 'GetNotificationDataMonitoringEvents');
     $("#monitoringEventViewerModal").modal('show');
 }

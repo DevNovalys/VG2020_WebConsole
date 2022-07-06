@@ -19,14 +19,14 @@ function ShowAlertMessage(title, message, isError) {
 
 function ShowErrorMessage(message) {    
     let originalMessage = message;
-    if (message.length > 10) {
-        message = message.substring(0, 100);
+    if (message.length > 50) {
+        message = message.substring(0, 200);
         message += '...';
     }
+
     $("#errorMessagePanel").fadeIn();
     $("#errorMessage").text(message);
-    $("#errorMessageDetail").text(originalMessage);
-    //$("#errorMessagePanel").prop('title', originalMessage);
+    $("#errorMessageDetail").text(originalMessage);    
 }
 
 function ClearErrorMessage() {
@@ -193,12 +193,12 @@ function GoNext(thisObj) {
     }
 }
 
-function ShowLoader() {
+function ShowLoader() {    
     $("#loadPanel").dxLoadPanel("instance").show();
     $(".dx-loadpanel-message").show();
 }
 
-function HideLoader() {
+function HideLoader() {    
     $(".dx-loadpanel-message").hide();
     $("#loadPanel").dxLoadPanel("instance").hide();
 }

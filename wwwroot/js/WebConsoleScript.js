@@ -1,6 +1,33 @@
 ﻿var checkedGrantItemsGlobal = [];
 var checkedRevokeItemsGlobal = [];
 
+$(document).on('show.bs.modal', '#permissionMatrixModal', function () {    
+    LoadPermissionMatrixData();
+    $('#chkAdvancedSettings').prop('checked', false);
+})
+
+//On Grant modal closing.
+$(document).on('hidden.bs.modal', '#permissionMatrixModal', function () {
+    $("#permissionMatrixData").empty();
+    selectedEntitiesForPermissionMatrix = null;
+});
+
+$(document).on('change', 'input[id=chkAdvancedSettings]', function () {    
+    var isCheckedAdvSettings = $('input[id=chkAdvancedSettings]:checked').val();
+    if (typeof isCheckedAdvSettings === 'undefined') {
+        $(".advSettings").hide();
+    }
+    else {
+        if (isCheckedAdvSettings === 'on') {
+            $(".advSettings").show();
+        }
+    }
+});
+
+function RefreshPage() {
+    window.location.href = window.location.href;
+}
+
 function RedirectToLoginPage()
 {
      window.location = "/account/RedirectToLogin";
@@ -19,6 +46,25 @@ function SetControlMaxHeight(ctrlId) {
     if (typeof control !== "undefined") {
         var windowHeight = $(window).height() - 320;
         control.css("max-height", windowHeight);        
+    }
+
+    let dxDataGrid = $("#" + ctrlId).dxDataGrid("instance");
+    if (typeof dxDataGrid !== "undefined") {
+        dxDataGrid.repaint();
+    }
+}
+
+function SetControlMaxHeight(ctrlId, dxControl) {
+    var control = $("#" + ctrlId);
+
+    if (typeof control !== "undefined") {
+        var windowHeight = $(window).height() - 320;
+        control.css("max-height", windowHeight);
+    }
+
+    
+    if (typeof dxControl !== "undefined") {
+        dxControl.repaint();
     }
 }
 
@@ -349,13 +395,28 @@ function ShowColumnChooser(grid) {
     grid.showColumnChooser();
 }
 
-function ExportUsers(grid) {
-    grid.exportToExcel(false);
-}
+//function ExportUsers(grid) {
+//    grid.exportToExcel(false);
+//}
 
 
 function ExportData(grid) {
-    grid.exportToExcel(false);
+    ExportToExcel(grid, false);
+}
+
+function ExportToExcel(grid, selectedOnly) {
+    
+    if (0 === grid.totalCount())
+        return;
+
+    if (selectedOnly) {
+        var selectedItems = grid.getSelectedRowKeys();
+        if (0 == selectedItems.length) {
+            return;
+        }
+    }
+
+    grid.exportToExcel(selectedOnly);
 }
 
 
@@ -392,11 +453,11 @@ function SetRoleIdForPermission(entityId, title) {
     SetPermissionView(entityId, 'Role: ' + title, 'VGRole', 'RoleEndPoint');
 }
 
-function SetUserIdForPermission(entityId, title) {
+function SetUserIdForPermission(entityId, title) {    
     SetPermissionView(entityId, 'User: ' + title, 'VGUser', 'UserEndPoint');
 }
 
-function SetPermissionSetIdForPermission(entityId, title) {
+function SetPermissionSetIdForPermission(entityId, title) {    
     SetPermissionView(entityId, 'Permission Set: ' + title, 'VGApplication', 'PermissionSetEndPoint');
 }
 
@@ -404,7 +465,7 @@ function SetPermissionView(entityId, title, areaNameToGetAllPermissions, control
     viewPermissionsForEntityId = entityId;
     areaName = areaNameToGetAllPermissions;
     controllerName = controllerNameToGetAllPermissions;
-    titleText = '(' + title + ')';
+    titleText = title;
 }
 
 function SetPermissionComingFromParameter(permissionIdParam, entityIdParam, entityTypeParam, entityNameParam) {    
@@ -653,6 +714,66 @@ function HideLoader() {
     $("#loadPanel").dxLoadPanel("instance").hide();
 }
 
+function OnDataGridRowPrepared(e) {
+    if (e.rowType == 'data') {
+        e.rowElement[0].addEventListener("mouseover", function () {
+            e.rowElement.find("td").css('background', '#e6e6e6');
+            e.rowElement.css("transition", "background-color 0.5s");
+        });
+        e.rowElement[0].addEventListener("mouseleave", function () {
+            e.rowElement.find("td").css('background', "");
+        });
+    }
+}
+
+function OnChartLegendClick(e) {
+    var series = e.target;
+    if (series.isVisible()) {
+        series.hide();
+    } else {
+        series.show();
+    }
+}
+
+function DownloadFile(urlToSend, fileName, dataToSend) {
+    var req = new XMLHttpRequest();    
+    const queryString = new URLSearchParams(dataToSend).toString();
+    let url = urlToSend + '?' + queryString;
+    req.open("GET", url, true);
+
+    req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    req.responseType = "blob";
+
+    req.onreadystatechange = function (oEvent) {
+        if (req.readyState === 4) {
+            if (req.status === 200) {                                
+                var blob = req.response;
+                if (0 < blob.size) {
+                    var link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = fileName;
+                    link.click();
+                }
+            } else {
+                console.error("Error", req.statusText);
+                return;
+            }
+        }
+    };
+
+    //req.onload = function (event) {
+    //    var blob = req.response;
+    //    if (0 < blob.size) {
+    //        var link = document.createElement('a');
+    //        link.href = window.URL.createObjectURL(blob);
+    //        link.download = fileName;
+    //        link.click();
+    //    }
+    //};
+
+    req.send();
+}
+
 //function OnVGDataErrorOccurred(e) {
 //    console.log(e);
 //    this.dataErrorMessage = "The server returned an error: " + e.error.message;
@@ -661,3 +782,4 @@ function HideLoader() {
 //function onVGLoadError(e) {
 //    console.log(e);
 //}
+

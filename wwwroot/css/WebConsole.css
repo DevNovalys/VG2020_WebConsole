@@ -62,18 +62,13 @@ div.card-body:hover {
     background-color: #fff;
 }
 
+.btn-danger {
+    background-color: #d9534f !important;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.modalFooter {
+    /*position: fixed;*/
+    bottom: 0;
+    width: inherit;
+    background-color: #F1F1F1;
+}

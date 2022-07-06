@@ -63,7 +63,10 @@ $('#permissionSetPermissionMatrix').click(function (event) {
             return;
         }
 
-        SetSelectedEntitiesForPermissionMatrix(selectedItems, 'PermissionSet');
+        var permissionSetGrid = GetDataGridInstance('PermissionSetGrid');
+        let selectedData = permissionSetGrid.getSelectedRowsData();
+        let applicationId = selectedData[0].ApplicationId;
+        SetSelectedEntitiesForPermissionMatrix(selectedItems, 'PermissionSet', applicationId);
         $('#permissionMatrixModal').modal('show');
 });
 
@@ -221,6 +224,7 @@ function UnSelectRow(id) {
 }
 
 function permissionSetContextMenu_Preparing(e) {
+    let grid = e.component;
     if (e.row.rowType === "data") {
         e.items = [{
             text: "Clear Selection",
@@ -229,15 +233,20 @@ function permissionSetContextMenu_Preparing(e) {
             }
         },
         {
-            text: "Export to",
+            text: "Export to Excel",
             onItemClick: function () {
 
             },
             items: [{
-                text: "Excel",
+                text: "Selected",
                 onItemClick: function () {
-                    var grid = GetDataGridInstance('PermissionSetGrid');
-                    ExportData(grid);
+                    ExportToExcel(grid, true);
+                }
+            },
+            {
+                text: "All",
+                onItemClick: function () {
+                    ExportToExcel(grid, false);
                 }
             }]
         },

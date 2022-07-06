@@ -64,20 +64,44 @@ function ProcessGroupAction(url, tree, rowsToProcess) {
 $('#groupPermissionMatrix').click(function (event) {
         event.preventDefault();
         var permissionMatrixButton = $(this);
-
         var treeList = GetTreeListInstance('GroupTreeList');
-        var selectedItems = treeList.getSelectedRowKeys();
-        if (selectedItems.length === 0) {
-            var selectOneMessage = permissionMatrixButton.data('selectone-message');
-            ErrorAlert(selectOneMessage, 1000, null, 0);
-            return;
-        }
 
-//alert('Go');
-
-        SetSelectedEntitiesForPermissionMatrix(selectedItems, 'Group');
-        $('#permissionMatrixModal').modal('show');
+        GenerateGroupsUserPermissionMatrix(treeList, permissionMatrixButton);
 });
+
+$('#generatePermMatrixGroupUsers').click(function (event) {
+    event.preventDefault();
+
+    var userPermissionMatrixButton = $(this);    
+    var dataGrid = GetDataGridInstance('UserGrid2');
+
+    GenerateUserPermissionMatrixForGroup(dataGrid, userPermissionMatrixButton);
+});
+
+function GenerateUserPermissionMatrixForGroup(dataGrid, permissionMatrixButton) {
+    var selectedItems = dataGrid.getSelectedRowKeys();
+    if (0 === selectedItems.length) {
+        var selectOneMessage = permissionMatrixButton.data('selectone-message');
+        ErrorAlert(selectOneMessage, 1000, null, 0);
+        return;
+    }
+
+    SetSelectedEntitiesForPermissionMatrix(selectedItems, 'User');
+    $('#permissionMatrixModal').modal('show');
+}
+
+
+function GenerateGroupsUserPermissionMatrix(treeList, permissionMatrixButton) {    
+    var selectedItems = treeList.getSelectedRowKeys();
+    if (0 === selectedItems.length) {
+        var selectOneMessage = permissionMatrixButton.data('selectone-message');
+        ErrorAlert(selectOneMessage, 1000, null, 0);
+        return;
+    }
+
+    SetSelectedEntitiesForPermissionMatrix(selectedItems, 'Group');
+    $('#permissionMatrixModal').modal('show');
+}
 
 //================
 $('#chkShowSelectedGroups').change(function () {
